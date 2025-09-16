@@ -54,7 +54,7 @@ export function NotionPageHeader({
             <img
               src={isDarkMode ? '/logo-QTT.svg' : '/logo-light-qtt.svg'}
               alt='QuantTrader Tools'
-              style={{ height: 28 }}
+              style={{ height: 40 }}
             />
           </Link>
           <span className='header-brand-title'>QUANT TRADER TOOLS</span>

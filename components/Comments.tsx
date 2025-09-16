@@ -23,12 +23,13 @@ export function Comments({ repo, issueTerm = 'pathname', label, theme = 'github-
     script.src = 'https://utteranc.es/client.js'
     script.async = true
     script.crossOrigin = 'anonymous'
-  script.setAttribute('repo', 'QuantTraderTools/QuantTraderToolsBlog')
+    // Use the provided repo in the required "owner/repo" format
+    script.setAttribute('repo', repo)
     script.setAttribute('issue-term', issueTerm)
     script.setAttribute('theme', theme)
     if (label) script.setAttribute('label', label)
 
-  container.append(script)
+    container.append(script)
 
     return () => {
       // Cleanup on unmount

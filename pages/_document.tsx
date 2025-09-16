@@ -8,13 +8,12 @@ export default class MyDocument extends Document {
       <IconContext.Provider value={{ style: { verticalAlign: 'middle' } }}>
         <Html lang='en'>
           <Head>
-            <link rel='shortcut icon' href='/favicon.ico' />
-            <link
-              rel='icon'
-              type='image/png'
-              sizes='32x32'
-              href='favicon.png'
-            />
+            {/* Primary favicon: QTT SVG logo */}
+            <link rel='icon' type='image/svg+xml' href='/logo-QTT.svg' />
+            {/* Fallbacks for browsers that don't support SVG favicons */}
+            <link rel='icon' type='image/png' sizes='32x32' href='/favicon.png' />
+            <link rel='shortcut icon' type='image/png' sizes='192x192' href='/favicon-192x192.png' />
+            <link rel='apple-touch-icon' sizes='180x180' href='/favicon-192x192.png' />
 
             <link rel='manifest' href='/manifest.json' />
             {/* Preload brand font for faster first paint on mobile */}

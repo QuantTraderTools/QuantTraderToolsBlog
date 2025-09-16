@@ -80,7 +80,7 @@
   margin-left: 10px;
   font-family: var(--brand-heading-font);
   font-size: 1rem;
-  letter-spacing: 0.04em;
+  letter-spacing: 0em;
   color: var(--fg-color);
   align-self: center;
 }
@@ -560,7 +560,7 @@
   /* Brand text next to logo */
   .notion-header .notion-nav-header-left .header-brand-title {
     font-family: var(--brand-heading-font) !important;
-    letter-spacing: 0.04em;
+    letter-spacing: 0em;
   }
 
   /* All nav link buttons on both sides */

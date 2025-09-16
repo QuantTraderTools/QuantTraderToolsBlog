@@ -1,6 +1,11 @@
 {
+<<<<<<< HEAD
   "name": "QuantTraderTools Blog",
   "short_name": "QTT Blog",
+=======
+  "name": "Quant Trader Tools",
+  "short_name": "QTT",
+>>>>>>> 9ae1fe1 (Brand polish: QTT favicon + manifest, bigger header logo, tighter brand title spacing, Utterances repo via config)
   "icons": [
     {
       "src": "/favicon.png",
