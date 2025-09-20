@@ -121,8 +121,41 @@
 
 .comments {
   width: 100%;
-  margin-top: 2em;
-  border-top: 1px solid var(--fg-color-0);
+  margin: 0;
+  margin-top: -32px; /* Negative margin to overlap with notion-page padding-bottom */
+  padding: 32px 0 1rem 0; /* Add back the padding at the top */
+  background-color: var(--bg-color);
+  border-top: 1px solid rgba(229, 231, 235, 1);
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.commentsInner {
+  width: 100%;
+  background-color: var(--bg-color);
+  margin: 0;
+  padding: 0;
+}
+
+/* Default: show light theme, hide dark theme */
+.commentsInner .utterances-light {
+  display: block;
+}
+
+.commentsInner .utterances-dark {
+  display: none;
+}
+
+/* Dark mode: hide light theme, show dark theme */
+:global(.dark-mode) .comments {
+  border-top-color: rgba(55, 65, 81, 1);
+}
+
+:global(.dark-mode) .commentsInner .utterances-light {
+  display: none !important;
+}
+
+:global(.dark-mode) .commentsInner .utterances-dark {
+  display: block !important;
 }
 
 @media only screen and (max-width: 566px) {
