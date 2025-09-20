@@ -339,7 +339,7 @@ export function NotionPage({
     [block, recordMap, isBlogPost]
   )
 
-  const footer = React.useMemo(() => <Footer />, [])
+  const footer = React.useMemo(() => <Footer isBlogPost={isBlogPost} />, [isBlogPost])
 
   if (router.isFallback) {
     return <Loading />
@@ -431,14 +431,16 @@ export function NotionPage({
 
       {/* Comments: show under blog posts if enabled */}
       {isBlogPost && config.isCommentsEnabled && config.utterancesRepo && hasMounted && (
-        <div className={styles.comments}>
-          <Comments
-            repo={config.utterancesRepo}
-            issueTerm='pathname'
-            label={config.utterancesLabel}
-            theme={isDarkMode ? 'github-dark' : config.utterancesTheme}
-          />
-        </div>
+        <>
+          <div className={styles.comments}>
+            <Comments
+              repo={config.utterancesRepo}
+              issueTerm='pathname'
+              label={config.utterancesLabel}
+              theme={isDarkMode ? 'github-dark' : config.utterancesTheme}
+            />
+          </div>
+        </>
       )}
 
   

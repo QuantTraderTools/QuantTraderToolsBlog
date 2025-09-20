@@ -16,7 +16,11 @@ import styles from './styles.module.css'
 
 // TODO: merge the data and icons from PageSocial with the social links in Footer
 
-export function FooterImpl() {
+interface FooterProps {
+  isBlogPost?: boolean;
+}
+
+export function FooterImpl({ isBlogPost = false }: FooterProps) {
   const [hasMounted, setHasMounted] = React.useState(false)
   const { isDarkMode, toggleDarkMode } = useDarkMode()
   const currentYear = new Date().getFullYear()
@@ -34,12 +38,22 @@ export function FooterImpl() {
   }, [])
 
   return (
-    <footer className={styles.footer}>
-      <div className={styles.copyright}>
-        Copyright {currentYear} {config.author}
+    <footer className={isBlogPost ? styles.footer : styles.footerHomePage}>
+      <div className={styles.footerSection}>
+        <span className={styles.copyright}>
+          Copyright {currentYear} {config.author}
+        </span>
       </div>
-
-      <div className={styles.settings}>
+      
+      {isBlogPost && (
+        <div className={styles.footerSection}>
+          <a href="/" className={styles.homeButton} title="Home">
+            Home
+          </a>
+        </div>
+      )}
+      
+      <div className={styles.footerSection}>
         {hasMounted && (
           <a
             className={styles.toggleDarkMode}
@@ -89,7 +103,7 @@ export function FooterImpl() {
           </a>
         )}
 
-  {config.github && (
+        {config.github && (
           <a
             className={styles.github}
             href={`https://github.com/${config.github}`}
@@ -101,7 +115,7 @@ export function FooterImpl() {
           </a>
         )}
 
-  {config.linkedin && (
+        {config.linkedin && (
           <a
             className={styles.linkedin}
             href={`https://www.linkedin.com/in/${config.linkedin}`}
@@ -113,7 +127,7 @@ export function FooterImpl() {
           </a>
         )}
 
-  {config.newsletter && (
+        {config.newsletter && (
           <a
             className={styles.newsletter}
             href={`${config.newsletter}`}
