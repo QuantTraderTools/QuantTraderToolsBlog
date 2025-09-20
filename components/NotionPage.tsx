@@ -275,6 +275,7 @@ export function NotionPage({
 }: types.PageProps) {
   const router = useRouter()
   const lite = useSearchParam('lite')
+  const [hasMounted, setHasMounted] = React.useState(false)
 
   const components = React.useMemo<Partial<NotionComponents>>(
     () => ({
@@ -299,6 +300,14 @@ export function NotionPage({
   const isLiteMode = lite === 'true'
 
   const { isDarkMode } = useDarkMode()
+
+  // Prevent hydration mismatch by only applying dark mode after mounting
+  React.useEffect(() => {
+    setHasMounted(true)
+  }, [])
+
+  // Use a safe dark mode value that prevents hydration mismatch
+  const safeDarkMode = hasMounted ? isDarkMode : false
 
   const siteMapPageUrl = React.useMemo(() => {
     const params: any = {}
@@ -386,14 +395,14 @@ export function NotionPage({
       />
 
   {isLiteMode && <BodyClassName className='notion-lite' />}
-  {isDarkMode && <BodyClassName className='dark-mode' />}
+  {safeDarkMode && <BodyClassName className='dark-mode' />}
 
       <NotionRenderer
         bodyClassName={cs(
           styles.notion,
           pageId === site.rootNotionPageId && 'index-page'
         )}
-        darkMode={isDarkMode}
+        darkMode={safeDarkMode}
         components={components}
         recordMap={recordMap}
         rootPageId={site.rootNotionPageId}
@@ -403,7 +412,7 @@ export function NotionPage({
         showCollectionViewDropdown={false}
         showTableOfContents={showTableOfContents}
         minTableOfContentsItems={minTableOfContentsItems}
-  defaultPageIcon={isDarkMode ? '/logo-QTT.svg' : '/logo-light-qtt.svg'}
+  defaultPageIcon={safeDarkMode ? '/logo-QTT.svg' : '/logo-light-qtt.svg'}
         defaultPageCover={config.defaultPageCover}
         defaultPageCoverPosition={config.defaultPageCoverPosition}
         mapPageUrl={siteMapPageUrl}
@@ -421,7 +430,7 @@ export function NotionPage({
       )}
 
       {/* Comments: show under blog posts if enabled */}
-      {isBlogPost && config.isCommentsEnabled && config.utterancesRepo && (
+      {isBlogPost && config.isCommentsEnabled && config.utterancesRepo && hasMounted && (
         <div className={styles.comments}>
           <Comments
             repo={config.utterancesRepo}
