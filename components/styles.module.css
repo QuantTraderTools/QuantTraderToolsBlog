@@ -47,20 +47,87 @@
 
 .footer {
   width: 100%;
-  max-width: 1100px;
-  margin: auto auto 0;
-  padding: 8px;
+  max-width: 720px; /* Match the notion content width */
+  margin: 0 auto; /* Remove all vertical margins */
+  padding: 0; /* Remove padding to align with comment box edges */
 
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: space-between; /* Space between left and right, center in middle */
   align-items: center;
 }
 
-.copyright {
-  font-size: 80%;
-  padding: 0.5em;
+/* Home page footer - improved styling */
+.footerHomePage {
+  width: 100%;
+  max-width: 1200px; /* Wider for home page */
+  margin: 2rem auto 1rem auto; /* More margin for better spacing */
+  padding: 2rem 1rem; /* Add padding for better appearance */
+  border-top: 1px solid var(--color-border);
+  background: var(--bg-color);
+
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem; /* Add gap between copyright and theme toggle */
 }
+
+.footerSection {
+  display: flex;
+  align-items: center;
+  justify-items: center;
+  justify-content: center;
+  padding-left: 38px;
+}
+
+/* Left section - align copyright text to the left edge */
+.footerSection:first-child {
+  justify-content: flex-start;
+  flex: 0 0 auto;
+}
+
+/* Center section - Home button */
+.footerSection:nth-child(2) {
+  justify-content: center;
+  flex: 1 1 auto;
+}
+
+/* Right section - align theme toggle to the right edge */
+.footerSection:last-child {
+  justify-content: flex-end;
+  flex: 0 0 auto;
+}
+
+/* Home page footer sections - different layout */
+.footerHomePage .footerSection {
+  padding-left: 0; /* Remove padding for centered layout */
+  justify-content: center;
+  flex: 0 0 auto;
+}
+
+.copyright {
+  font-size: 75%; /* Reduced font size slightly */
+  padding: 0.5em 0 0.5em 0.5rem; /* Reduced left padding for better alignment */
+}
+
+.homeButton {
+  font-size: 1em; /* Slightly reduced from 1.1em */
+  font-weight: bold;
+  text-decoration: none;
+  color: inherit;
+  background: none;
+  border: none;
+  cursor: pointer;
+  /* padding: 0.5em 1em; */
+  padding-right: 25%;
+  border-radius: 6px;
+  transition: background 0.2s;
+}
+
+/* .homeButton:hover { */
+  /* background: rgba(128, 128, 128, 0.1);
+} */
 
 .settings,
 .social {
@@ -72,8 +139,7 @@
   cursor: pointer;
   font-size: 2em;
   display: inline-flex;
-  padding: 0.25em;
-  margin-right: 1vw;
+  padding: 0.25em 1rem 0.25em 0; /* Add right padding to move icon more to the right */
   transition: color 250ms ease-out;
 }
 
@@ -119,14 +185,65 @@
   color: #777777;
 }
 
+.footerCommentsSeparator {
+  width: 100%;
+  max-width: var(--notion-max-width, 720px);
+  height: 1px;
+  background: var(--color-border);
+  margin: 1rem auto;
+  padding: 0 max(env(safe-area-inset-left), 96px);
+  box-sizing: border-box;
+}
+
+.commentsWithSeparator {
+  width: 100%;
+  margin: 0;
+  margin-top: -32px; /* Same as comments section */
+  padding: 32px 0 1rem 0; /* Same as comments section */
+  background-color: var(--bg-color);
+  border-top: 1px solid rgba(229, 231, 235, 1); /* Exact same border as comments */
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.footerCommentSeparator {
+  width: 100%;
+  max-width: 720px;
+  height: 1px;
+  background: #e5e7eb; /* A light gray, visible in light mode */
+  margin: 0 auto; /* No vertical margin - line directly touches elements */
+}
+
+:global(.dark-mode) .footerCommentSeparator {
+  background: #6b7280; /* A lighter gray, more visible in dark mode */
+}
+
 .comments {
   width: 100%;
   margin: 0;
-  margin-top: -32px; /* Negative margin to overlap with notion-page padding-bottom */
-  padding: 32px 0 1rem 0; /* Add back the padding at the top */
+  margin-top: 0;
+  padding: 0 0 1rem 0; /* No top padding - separator line touches comments directly */
   background-color: var(--bg-color);
-  border-top: 1px solid rgba(229, 231, 235, 1);
+  border-top: none;
   transition: background-color 0.2s ease, border-color 0.2s ease;
+  position: relative;
+}
+
+.comments::before {
+  content: '';
+  display: block;
+  width: 100%;
+  max-width: 720px; /* Match content width */
+  height: 1px;
+  background: #e5e7eb; /* Light mode separator line */
+  margin: 0 auto;
+}
+
+.commentsSeparator {
+  width: 100%;
+  max-width: 720px; /* Match the notion content width */
+  height: 1px;
+  background: var(--color-border);
+  margin: 0 auto 1rem auto;
 }
 
 .commentsInner {
@@ -146,8 +263,8 @@
 }
 
 /* Dark mode: hide light theme, show dark theme */
-:global(.dark-mode) .comments {
-  border-top-color: rgba(55, 65, 81, 1);
+:global(.dark-mode) .comments::before {
+  background: #6b7280; /* Dark mode separator line */
 }
 
 :global(.dark-mode) .commentsInner .utterances-light {
