@@ -75,14 +75,21 @@
   }
 }
 
-/* Brand title next to logo */
+/* Brand title next to logo - matches main site styling */
 .header-brand-title {
   margin-left: 10px;
-  font-family: var(--brand-heading-font);
-  font-size: 1rem;
-  letter-spacing: 0em;
-  color: var(--fg-color);
+  font-family: 'Mokoto', sans-serif !important;
+  font-size: 18px; /* Matches computed style */
+  font-weight: 400; /* Matches computed style */
+  line-height: 28px; /* Matches computed style height */
+  letter-spacing: normal; /* Uses Mokoto font's natural spacing for "closer" look */
+  color: rgb(17, 24, 39); /* Light mode - matches text-gray-900 */
   align-self: center;
+}
+
+/* Dark mode styling for brand title */
+[data-theme="dark"] .header-brand-title {
+  color: rgb(255, 255, 255); /* Dark mode - matches dark:text-white */
 }
 
 /* Hide hero circle and big landing title on home to move brand to header */

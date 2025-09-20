@@ -112,22 +112,24 @@
 }
 
 .homeButton {
-  font-size: 1em; /* Slightly reduced from 1.1em */
+  font-size: 1.2em; /* Good size for icons */
   font-weight: bold;
   text-decoration: none;
   color: inherit;
   background: none;
   border: none;
   cursor: pointer;
-  /* padding: 0.5em 1em; */
-  padding-right: 25%;
+  padding: 0.25em; /* Even padding for icons */
   border-radius: 6px;
   transition: background 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-/* .homeButton:hover { */
-  /* background: rgba(128, 128, 128, 0.1);
-} */
+.homeButton:hover {
+  background: rgba(128, 128, 128, 0.1);
+}
 
 .settings,
 .social {
