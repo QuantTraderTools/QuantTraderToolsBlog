@@ -7,6 +7,7 @@ import { FaYoutube } from '@react-icons/all-files/fa/FaYoutube'
 import { FaZhihu } from '@react-icons/all-files/fa/FaZhihu'
 import { IoMoonSharp } from '@react-icons/all-files/io5/IoMoonSharp'
 import { IoSunnyOutline } from '@react-icons/all-files/io5/IoSunnyOutline'
+import { IoHome } from '@react-icons/all-files/io5/IoHome'
 import * as React from 'react'
 
 import * as config from '@/lib/config'
@@ -39,19 +40,19 @@ export function FooterImpl({ isBlogPost = false }: FooterProps) {
 
   return (
     <footer className={isBlogPost ? styles.footer : styles.footerHomePage}>
+      {isBlogPost && (
+        <div className={styles.footerSection}>
+          <a href="/" className={styles.homeButton} title="Home">
+            <IoHome />
+          </a>
+        </div>
+      )}
+      
       <div className={styles.footerSection}>
         <span className={styles.copyright}>
           Copyright {currentYear} {config.author}
         </span>
       </div>
-      
-      {isBlogPost && (
-        <div className={styles.footerSection}>
-          <a href="/" className={styles.homeButton} title="Home">
-            Home
-          </a>
-        </div>
-      )}
       
       <div className={styles.footerSection}>
         {hasMounted && (

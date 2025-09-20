@@ -6,6 +6,7 @@ import type * as types from 'notion-types'
 import { Header, Search, useNotionContext } from 'react-notion-x'
 import { IoMoonSharp } from '@react-icons/all-files/io5/IoMoonSharp'
 import { IoSunnyOutline } from '@react-icons/all-files/io5/IoSunnyOutline'
+import { IoHome } from '@react-icons/all-files/io5/IoHome'
 
 import { isSearchEnabled, navigationLinks, navigationStyle } from '@/lib/config'
 import { useDarkMode } from '@/lib/use-dark-mode'
@@ -50,13 +51,15 @@ export function NotionPageHeader({
     <header className='notion-header'>
       <div className='notion-nav-header'>
         <div className='notion-nav-header-left breadcrumbs'>
-          <Link href='https://quanttradertools.com' className={cs('breadcrumb', 'button')} aria-label='Home' style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <Link href='https://quanttradertools.vercel.app/' className={cs('breadcrumb', 'button')} aria-label='Home' style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
             <img
               src={isDarkMode ? '/logo-QTT.svg' : '/logo-light-qtt.svg'}
-              alt='QuantTrader Tools'
-              style={{ height: 40 }}
+              alt='Logo'
+              width={64}
+              height={64}
+              style={{ width: '4rem', height: '4rem' }}
             />
-            <span className='header-brand-title' style={{ letterSpacing: '-0.14px' }}>QUANT TRADER TOOLS</span>
+            <h2 className='header-brand-title'>Quant Trader Tools</h2>
           </Link>
         </div>
 
@@ -94,10 +97,7 @@ export function NotionPageHeader({
             .filter(Boolean)}
 
           <Link href='/' className={cs('breadcrumb', 'button')} aria-label='Home' style={{ marginRight: '0.5rem' }}>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              <polyline points="9,22 9,12 15,12 15,22" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
+            <IoHome />
           </Link>
 
           <ToggleThemeButton />

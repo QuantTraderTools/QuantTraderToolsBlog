@@ -20,7 +20,7 @@ export default class MyDocument extends Document {
             <link
               rel='preload'
               as='font'
-              href='/fonts/mokoto/ttf/mokoto-mokoto-regular-400.ttf'
+              href='/fonts/Mokoto.ttf'
               type='font/ttf'
               crossOrigin='anonymous'
             />
