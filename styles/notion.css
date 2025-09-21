@@ -78,18 +78,30 @@
 /* Brand title next to logo - matches main site styling */
 .header-brand-title {
   margin-left: 10px;
-  font-family: 'Mokoto', sans-serif !important;
-  font-size: 18px; /* Matches computed style */
-  font-weight: 400; /* Matches computed style */
-  line-height: 28px; /* Matches computed style height */
-  letter-spacing: normal; /* Uses Mokoto font's natural spacing for "closer" look */
-  color: rgb(17, 24, 39); /* Light mode - matches text-gray-900 */
+  font-family: var(--brand-heading-font) !important; /* Use CSS variable with fallback */
+  font-size: 14px; /* Slightly reduced from 18px */
+  font-weight: normal; /* Matches @font-face declaration */
+  line-height: 24px; /* Adjusted proportionally */
+  letter-spacing: 0.01em; /* Uses Mokoto font's natural spacing for "closer" look */
+  color: rgb(17, 24, 39); /* Light mode - black/dark gray */
   align-self: center;
 }
 
 /* Dark mode styling for brand title */
-[data-theme="dark"] .header-brand-title {
-  color: rgb(255, 255, 255); /* Dark mode - matches dark:text-white */
+.dark-mode .header-brand-title {
+  color: rgb(255, 255, 255); /* Dark mode - white */
+}
+
+/* Increase size of header icons (home, theme switcher) */
+.notion-header .notion-nav-header-rhs .breadcrumb.button svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* Increase size of search button */
+.notion-header .notion-search-button svg {
+  width: 18px;
+  height: 18px;
 }
 
 /* Hide hero circle and big landing title on home to move brand to header */
