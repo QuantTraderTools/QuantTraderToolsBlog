@@ -51,15 +51,13 @@ export function NotionPageHeader({
     <header className='notion-header'>
       <div className='notion-nav-header'>
         <div className='notion-nav-header-left breadcrumbs'>
-          <Link href='https://quanttradertools.vercel.app/' className={cs('breadcrumb', 'button')} aria-label='Home' style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+          <Link href='https://quanttradertools.vercel.app/' className={cs('breadcrumb', 'button')} aria-label='Home' style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
             <img
               src={isDarkMode ? '/logo-QTT.svg' : '/logo-light-qtt.svg'}
-              alt='Logo'
-              width={64}
-              height={64}
-              style={{ width: '4rem', height: '4rem' }}
+              alt='QuantTrader Tools'
+              style={{ height: 40 }}
             />
-            <h2 className='header-brand-title'>Quant Trader Tools</h2>
+            <span className='header-brand-title'>Quant Trader Tools</span>
           </Link>
         </div>
 
