@@ -4,7 +4,7 @@ export default siteConfig({
   // the site's root Notion page (required) - Updated for QuantTraderTools Blog
  
   rootNotionPageId: '26b5e2ddc87f80239017e81020415565',
-
+                    
   // if you want to restrict pages to a single notion workspace (optional)
   // (this should be a Notion ID; see the docs for how to extract this)
 
@@ -19,6 +19,12 @@ export default siteConfig({
   // open graph metadata (optional)
   
   description: 'Next.js Notion Blog for QuantTraderTools',
+
+  // remove notion page IDs from URLs (clean URLs)
+  includeNotionIdInUrls: false,
+
+  // enable search functionality
+  isSearchEnabled: true,
 
   // social usernames (optional)
   twitter: undefined,
