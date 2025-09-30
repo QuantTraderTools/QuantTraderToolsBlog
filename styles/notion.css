@@ -48,8 +48,14 @@
 .notion-header .notion-nav-header {
   max-width: 1100px;
   margin: 0 auto;
-  overflow-x: auto;
+  overflow: visible;
   position: relative; /* for absolute centered title */
+}
+
+@media (min-width: 1024px) {
+  .notion-header .notion-nav-header {
+    overflow-x: auto;
+  }
 }
 
 .notion-nav-header-rhs {
@@ -96,6 +102,15 @@
 .notion-header .notion-nav-header-rhs .breadcrumb.button svg {
   width: 18px;
   height: 18px;
+}
+
+/* Ensure consistent styling for all header navigation buttons */
+.notion-header .notion-nav-header-rhs .breadcrumb.button {
+  border: none !important;
+  background: none !important;
+  box-shadow: none !important;
+  padding: 0.5rem !important;
+  border-radius: 0 !important;
 }
 
 /* Increase size of search button */
@@ -218,12 +233,6 @@
   .notion-page {
     padding-left: 2vw;
     padding-right: 2vw;
-  }
-}
-
-@media only screen and (max-width: 600px) {
-  .notion-search-button {
-    display: none !important;
   }
 }
 
@@ -430,6 +439,9 @@
 }
 
 .notion-header {
+  position: sticky;
+  top: 0;
+  z-index: 100000;
   background: hsla(0, 0%, 100%, 0.8);
   backdrop-filter: saturate(180%) blur(16px);
 }
@@ -669,4 +681,55 @@
 /* Hide the site footer on the home page */
 .index-page footer {
   display: none !important;
+}
+
+/* Ensure proper footer spacing and alignment */
+.notion-footer {
+  margin-top: 2rem;
+  padding: 1.5rem 0;
+  border-top: 1px solid var(--fg-color-6);
+}
+
+/* Custom footer component styling */
+footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.75rem 0;
+  margin-top: 1.5rem;
+  flex-wrap: wrap;
+  font-size: 0.9rem;
+}
+
+footer > div,
+footer > section {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+@media (max-width: 768px) {
+  footer {
+    flex-direction: column;
+    gap: 0.5rem;
+    text-align: center;
+    padding: 0.5rem 0;
+    margin-top: 1rem;
+    font-size: 0.8rem;
+  }
+  
+  footer > div,
+  footer > section {
+    justify-content: center;
+    gap: 0.375rem;
+  }
+}
+
+.notion-header {
+  overflow: visible !important;
+}
+
+.notion-header .notion-nav-header {
+  overflow: visible !important;
 }
