@@ -1,5 +1,4 @@
 import * as React from 'react'
-import styles from './styles.module.css'
 
 interface CommentsProps {
   repo: string
@@ -8,65 +7,37 @@ interface CommentsProps {
   theme?: string
 }
 
-// Lightweight Utterances wrapper that uses two containers approach for theme switching
+// Lightweight Utterances wrapper that injects the script when mounted
 export function Comments({ repo, issueTerm = 'pathname', label, theme = 'github-light' }: CommentsProps) {
-  const lightContainerRef = React.useRef<HTMLDivElement>(null)
-  const darkContainerRef = React.useRef<HTMLDivElement>(null)
-  const [lightLoaded, setLightLoaded] = React.useState(false)
-  const [darkLoaded, setDarkLoaded] = React.useState(false)
+  const containerRef = React.useRef<HTMLDivElement>(null)
 
-  const isDarkTheme = theme === 'github-dark'
-
-  // Load light theme utterances
   React.useEffect(() => {
-    if (!repo || lightLoaded) return
-    const container = lightContainerRef.current
+    if (!repo) return
+    const container = containerRef.current
     if (!container) return
+
+    // Avoid duplicating the iframe if it already exists
+    if (container.querySelector('iframe.utterances-frame')) return
 
     const script = document.createElement('script')
     script.src = 'https://utteranc.es/client.js'
     script.async = true
     script.crossOrigin = 'anonymous'
+    // Use the provided repo in the required "owner/repo" format
     script.setAttribute('repo', repo)
     script.setAttribute('issue-term', issueTerm)
-    script.setAttribute('theme', 'github-light')
+    script.setAttribute('theme', theme)
     if (label) script.setAttribute('label', label)
 
-    script.onload = () => setLightLoaded(true)
     container.append(script)
-  }, [repo, issueTerm, label])
 
-  // Load dark theme utterances
-  React.useEffect(() => {
-    if (!repo || darkLoaded) return
-    const container = darkContainerRef.current
-    if (!container) return
+    return () => {
+      // Cleanup on unmount
+      while (container.firstChild) {
+        container.firstChild.remove()
+      }
+    }
+  }, [repo, issueTerm, label, theme])
 
-    const script = document.createElement('script')
-    script.src = 'https://utteranc.es/client.js'
-    script.async = true
-    script.crossOrigin = 'anonymous'
-    script.setAttribute('repo', repo)
-    script.setAttribute('issue-term', issueTerm)
-    script.setAttribute('theme', 'github-dark')
-    if (label) script.setAttribute('label', label)
-
-    script.onload = () => setDarkLoaded(true)
-    container.append(script)
-  }, [repo, issueTerm, label])
-
-  return (
-    <div className={styles.commentsInner}>
-      <div 
-        ref={lightContainerRef} 
-        className="utterances-light"
-        style={{ display: isDarkTheme ? 'none' : 'block' }}
-      />
-      <div 
-        ref={darkContainerRef} 
-        className="utterances-dark"
-        style={{ display: isDarkTheme ? 'block' : 'none' }}
-      />
-    </div>
-  )
+  return <div className='comments' ref={containerRef} />
 }

@@ -292,3 +292,49 @@
 .notion-nav-header {
   overflow: visible !important;
 }
+
+/* Comments Section Styling */
+.comments {
+  width: 100%;
+  margin: 0;
+  margin-top: 0;
+  padding: 0 0 1rem 0;
+  background-color: var(--bg-color);
+  border-top: none;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+  position: relative;
+}
+
+.comments::before {
+  content: '';
+  display: block;
+  width: 100%;
+  max-width: 720px;
+  height: 1px;
+  background: #e5e7eb;
+  margin: 0 auto;
+}
+
+.commentsSeparator {
+  width: 100%;
+  max-width: 720px;
+  height: 1px;
+  background: var(--color-border);
+  margin: 0 auto 1rem auto;
+}
+
+.commentsInner {
+  width: 100%;
+  background-color: var(--bg-color);
+  margin: 0;
+  padding: 0;
+}
+
+/* Dark mode separator line */
+:global(.dark-mode) .comments::before {
+  background: #6b7280;
+}
+
+:global(.dark-mode) .comments {
+  background-color: var(--bg-color) !important;
+}

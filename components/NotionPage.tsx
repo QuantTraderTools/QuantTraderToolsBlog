@@ -430,17 +430,16 @@ export function NotionPage({
       )}
 
       {/* Comments: show under blog posts if enabled */}
-      {isBlogPost && config.isCommentsEnabled && config.utterancesRepo && hasMounted && (
-        <>
-          <div className={styles.comments}>
-            <Comments
-              repo={config.utterancesRepo}
-              issueTerm='pathname'
-              label={config.utterancesLabel}
-              theme={isDarkMode ? 'github-dark' : config.utterancesTheme}
-            />
-          </div>
-        </>
+      {isBlogPost && config.isCommentsEnabled && config.utterancesRepo && (
+        <div className={styles.comments}>
+          <Comments
+            key={isDarkMode ? 'dark' : 'light'}
+            repo={config.utterancesRepo}
+            issueTerm='pathname'
+            label={config.utterancesLabel}
+            theme={isDarkMode ? 'github-dark' : (config.utterancesTheme || 'github-light')}
+          />
+        </div>
       )}
 
   
