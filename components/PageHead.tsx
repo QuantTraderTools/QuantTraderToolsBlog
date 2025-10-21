@@ -159,15 +159,16 @@ export function PageHead({
             {JSON.stringify({
               '@context': 'https://schema.org',
               '@type': 'BlogPosting',
-              '@id': `${url}#BlogPosting`,
+              headline: title,
+              name: title,
+              description,
+              image: schemaImages.length > 0 ? schemaImages : [socialImageUrl].filter(Boolean),
+              ...(dates.datePublished && { datePublished: dates.datePublished }),
+              ...(dates.dateModified && { dateModified: dates.dateModified }),
               mainEntityOfPage: {
                 '@type': 'WebPage',
                 '@id': url
               },
-              url,
-              headline: title,
-              name: title,
-              description,
               author: {
                 '@type': 'Person',
                 name: config.author
@@ -179,10 +180,7 @@ export function PageHead({
                   '@type': 'ImageObject',
                   url: `${config.host}/logo-QTT.svg`
                 }
-              },
-              image: schemaImages.length > 0 ? schemaImages : [socialImageUrl].filter(Boolean),
-              ...(dates.datePublished && { datePublished: dates.datePublished }),
-              ...(dates.dateModified && { dateModified: dates.dateModified })
+              }
             })}
           </script>
         )
