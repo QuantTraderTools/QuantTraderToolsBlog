@@ -1,0 +1,191 @@
+We need to optimisr this page to seo 
+This is what a good similar seo looks like
+BlogPosting
+All (1)arrow_drop_down
+BlogPosting
+0 ERRORS
+0 WARNINGS
+expand_less
+@type	
+BlogPosting
+headline	
+Best Temporary Email Services in 2025: Complete Guide
+name	
+Best Temporary Email Services in 2025: Complete Guide
+description	
+Wondering what is the best service for temporary email service to use for your needs? Explore the top offerings along with tempusmail.com
+image	
+https://blog.tempusmail.com/securityshield.jpg
+image	
+https://blog.tempusmail.com/disposable-temporary-email-security.jpg
+datePublished	
+2025-10-02
+dateModified	
+2025-10-09
+mainEntityOfPage	
+@type	
+WebPage
+@id	
+https://blog.tempusmail.com/best-temporary-email-services-in-2025-complete-guide
+author	
+@type	
+Person
+name	
+TempusMail
+publisher	
+@type	
+Organization
+name	
+TempusMail
+logo	
+@type	
+ImageObject
+url	
+https://tempusmail.com/TempusMail.svg
+
+This is ours in a schema validator
+BlogPosting
+All (1)arrow_drop_down
+BlogPosting
+ID: https://blog.quanttradertools.com/setting-up-and-managing-a-windows-ec2-instance-with-vs-code-remote-ssh#BlogPosting
+0 ERRORS
+0 WARNINGS
+expand_less
+@type	
+BlogPosting
+@id	
+https://blog.quanttradertools.com/setting-up-and-managing-a-windows-ec2-instance-with-vs-code-remote-ssh#BlogPosting
+mainEntityOfPage	
+https://blog.quanttradertools.com/setting-up-and-managing-a-windows-ec2-instance-with-vs-code-remote-ssh
+url	
+https://blog.quanttradertools.com/setting-up-and-managing-a-windows-ec2-instance-with-vs-code-remote-ssh
+headline	
+Setting Up and Managing a Windows EC2 Instance with VS Code Remote SSH
+name	
+Setting Up and Managing a Windows EC2 Instance with VS Code Remote SSH
+description	
+Running a Windows EC2 machine on AWS can give you the flexibility of cloud resources while retaining the familiarity of the Windows environment. This guide will walk you through setting up VS Code Remote SSH, configuring security, and automating routine tasks like scheduled shutdowns.
+image	
+https://blog.quanttradertools.com/api/social-image?id=26b5e2dd-c87f-816d-b14c-e3f7ad3fe26a
+author	
+@type	
+Person
+name	
+QuantTraderTools
+\
+This is the changes a simialr to what we need to make 
+
++2
+Lines changed: 2 additions & 0 deletions
+Original file line number	Diff line number	Diff line change
+@@ -381,6 +381,8 @@ export function NotionPage({
+        image={socialImage}
+        url={canonicalPageUrl}
+        isBlogPost={isBlogPost}
+        recordMap={recordMap}
+        block={block}
+      />
+
+      {isLiteMode && <BodyClassName className='notion-lite' />}
+‎components/PageHead.tsx‎
++50
+-5
+Lines changed: 50 additions & 5 deletions
+Original file line number	Diff line number	Diff line change
+@@ -1,23 +1,51 @@
+import Head from 'next/head'
+import { getPageProperty } from 'notion-utils'
+
+import type * as types from '@/lib/types'
+import * as config from '@/lib/config'
+import { getSocialImageUrl } from '@/lib/get-social-image-url'
+
+// Helper function to extract and parse ImageURLs from Notion rich_text property
+function getImageUrls(
+  block: types.Block,
+  recordMap: types.ExtendedRecordMap
+): string[] {
+  try {
+    const imageUrlsText = getPageProperty<string>('ImageURLs', block, recordMap)
+    if (!imageUrlsText) {
+      return []
+    }
+    
+    // Split by comma and clean up each URL
+    const urls = imageUrlsText
+      .split(',')
+      .map(url => url.trim())
+      .filter(url => url && url.startsWith('http'))
+    
+    return urls
+  } catch (err) {
+    console.warn('Error extracting ImageURLs:', err)
+    return []
+  }
+}
+export function PageHead({
+  site,
+  title,
+  description,
+  pageId,
+  image,
+  url,
+  isBlogPost
+  isBlogPost,
+  recordMap,
+  block
+}: types.PageProps & {
+  title?: string
+  description?: string
+  image?: string
+  url?: string
+  isBlogPost?: boolean
+  block?: types.Block
+}) {
+  const rssFeedUrl = `${config.host}/feed`
+
+@@ -26,6 +54,12 @@ export function PageHead({
+
+  const socialImageUrl = getSocialImageUrl(pageId) || image
+
+  // Extract image URLs from the ImageURLs property
+  const imageUrls = block && recordMap ? getImageUrls(block, recordMap) : []
+  
+  // Create the image array for schema - use ImageURLs if available, otherwise fallback to socialImageUrl
+  const schemaImages = imageUrls.length > 0 ? imageUrls : (socialImageUrl ? [socialImageUrl] : undefined)
+  return (
+    <Head>
+      <meta charSet='utf-8' />
+@@ -108,17 +142,28 @@ export function PageHead({
+          {JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'BlogPosting',
+            '@id': `${url}#BlogPosting`,
+            mainEntityOfPage: url,
+            url,
+            mainEntityOfPage: {
+              '@type': 'WebPage',
+              '@id': url
+            },
+            headline: title,
+            name: title,
+            description,
+            ...(schemaImages && { image: schemaImages }),
+            author: {
+              '@type': 'Person',
+              name: config.author
+            },
+            image: socialImageUrl
+            publisher: {
+              '@type': 'Organization',
+              name: 'TempusMail',
+              logo: {
+                '@type': 'ImageObject',
+                url: 'https://tempusmail.com/TempusMail.svg'
+              }
+            },
+            datePublished: '2025-10-02',
+            dateModified: '2025-10-09'
+          })}
+        </script>
+      )}

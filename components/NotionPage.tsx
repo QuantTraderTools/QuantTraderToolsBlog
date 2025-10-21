@@ -392,6 +392,8 @@ export function NotionPage({
         image={socialImage}
         url={canonicalPageUrl}
         isBlogPost={isBlogPost}
+        recordMap={recordMap}
+        block={block}
       />
 
   {isLiteMode && <BodyClassName className='notion-lite' />}

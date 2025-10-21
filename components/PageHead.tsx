@@ -1,8 +1,52 @@
 import Head from 'next/head'
+import { getPageProperty } from 'notion-utils'
 
 import type * as types from '@/lib/types'
 import * as config from '@/lib/config'
 import { getSocialImageUrl } from '@/lib/get-social-image-url'
+
+// Helper function to extract and parse ImageURLs from Notion rich_text property
+function getImageUrls(
+  block: types.Block,
+  recordMap: types.ExtendedRecordMap
+): string[] {
+  try {
+    const imageUrlsText = getPageProperty<string>('ImageURLs', block, recordMap)
+    if (!imageUrlsText) {
+      return []
+    }
+    
+    // Split by comma and clean up each URL
+    const urls = imageUrlsText
+      .split(',')
+      .map(url => url.trim())
+      .filter(url => url && url.startsWith('http'))
+    
+    return urls
+  } catch (err) {
+    console.warn('Error extracting ImageURLs:', err)
+    return []
+  }
+}
+
+// Helper function to extract dates from Notion page properties
+function getPageDates(
+  block: types.Block,
+  recordMap: types.ExtendedRecordMap
+): { datePublished?: string; dateModified?: string } {
+  try {
+    const publishedDate = getPageProperty<string>('Published', block, recordMap)
+    const modifiedDate = getPageProperty<string>('Last Edited', block, recordMap)
+    
+    return {
+      datePublished: publishedDate || undefined,
+      dateModified: modifiedDate || undefined
+    }
+  } catch (err) {
+    console.warn('Error extracting dates:', err)
+    return {}
+  }
+}
 
 export function PageHead({
   site,
@@ -11,13 +55,16 @@ export function PageHead({
   pageId,
   image,
   url,
-  isBlogPost
+  isBlogPost,
+  recordMap,
+  block
 }: types.PageProps & {
   title?: string
   description?: string
   image?: string
   url?: string
   isBlogPost?: boolean
+  block?: types.Block
 }) {
   const rssFeedUrl = `${config.host}/feed`
 
@@ -103,25 +150,43 @@ export function PageHead({
       <title>{title}</title>
 
       {/* Better SEO for the blog posts */}
-      {isBlogPost && (
-        <script type='application/ld+json'>
-          {JSON.stringify({
-            '@context': 'https://schema.org',
-            '@type': 'BlogPosting',
-            '@id': `${url}#BlogPosting`,
-            mainEntityOfPage: url,
-            url,
-            headline: title,
-            name: title,
-            description,
-            author: {
-              '@type': 'Person',
-              name: config.author
-            },
-            image: socialImageUrl
-          })}
-        </script>
-      )}
+      {isBlogPost && (() => {
+        const schemaImages = block && recordMap ? getImageUrls(block, recordMap) : []
+        const dates = block && recordMap ? getPageDates(block, recordMap) : {}
+        
+        return (
+          <script type='application/ld+json'>
+            {JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'BlogPosting',
+              '@id': `${url}#BlogPosting`,
+              mainEntityOfPage: {
+                '@type': 'WebPage',
+                '@id': url
+              },
+              url,
+              headline: title,
+              name: title,
+              description,
+              author: {
+                '@type': 'Person',
+                name: config.author
+              },
+              publisher: {
+                '@type': 'Organization',
+                name: site?.name || config.name,
+                logo: {
+                  '@type': 'ImageObject',
+                  url: `${config.host}/logo-QTT.svg`
+                }
+              },
+              image: schemaImages.length > 0 ? schemaImages : [socialImageUrl].filter(Boolean),
+              ...(dates.datePublished && { datePublished: dates.datePublished }),
+              ...(dates.dateModified && { dateModified: dates.dateModified })
+            })}
+          </script>
+        )
+      })()}
     </Head>
   )
 }
