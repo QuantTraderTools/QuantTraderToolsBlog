@@ -18,7 +18,7 @@ export default siteConfig({
 
   // open graph metadata (optional)
   
-  description: 'Next.js Notion Blog for QuantTraderTools',
+  description: 'Blog for QuantTraderTools',
 
   // remove notion page IDs from URLs (clean URLs)
   includeNotionIdInUrls: false,
