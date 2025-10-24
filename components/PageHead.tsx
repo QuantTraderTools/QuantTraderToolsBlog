@@ -185,6 +185,28 @@ export function PageHead({
           </script>
         )
       })()}
+
+      {/* Schema for home page / blog listing */}
+      {!isBlogPost && (
+        <script type='application/ld+json'>
+          {JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'WebSite',
+            name: site?.name || config.name,
+            description: description || config.description,
+            url: config.host,
+            publisher: {
+              '@type': 'Organization',
+              name: site?.name || config.name,
+              logo: {
+                '@type': 'ImageObject',
+                url: `${config.host}/logo-QTT.svg`
+              }
+            },
+            ...(socialImageUrl && { image: socialImageUrl })
+          })}
+        </script>
+      )}
     </Head>
   )
 }
