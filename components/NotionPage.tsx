@@ -1,11 +1,10 @@
-/* eslint-disable simple-import-sort/imports */
 import cs from 'classnames'
 import dynamic from 'next/dynamic'
 import Image from 'next/legacy/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { type PageBlock } from 'notion-types'
-import { formatDate, getBlockTitle, getPageProperty } from 'notion-utils'
+import { formatDate, getBlockTitle, getBlockValue, getPageProperty } from 'notion-utils'
 import * as React from 'react'
 import BodyClassName from 'react-body-classname'
 import {
@@ -24,7 +23,6 @@ import { searchNotion } from '@/lib/search-notion'
 import { useDarkMode } from '@/lib/use-dark-mode'
 
 import { Footer } from './Footer'
-import GoogleAd from './GoogleAd'
 import { Loading } from './Loading'
 import { NotionPageHeader } from './NotionPageHeader'
 import { Page404 } from './Page404'
@@ -318,7 +316,7 @@ export function NotionPage({
   }, [site, recordMap, lite])
 
   const keys = Object.keys(recordMap?.block || {})
-  const block = recordMap?.block?.[keys[0]!]?.value
+  const block = getBlockValue(recordMap?.block?.[keys[0]!])
 
   // const isRootPage =
   //   parsePageId(block?.id) === parsePageId(site?.rootNotionPageId)
@@ -349,7 +347,7 @@ export function NotionPage({
     return <Page404 site={site} pageId={pageId} error={error} />
   }
 
-  const title = getBlockTitle(block, recordMap) || site.name
+  const title = getBlockTitle(block, recordMap!) || site.name
 
   console.log('notion page', {
     isDev: config.isDev,
@@ -369,17 +367,17 @@ export function NotionPage({
 
   const canonicalPageUrl = config.isDev
     ? undefined
-    : getCanonicalPageUrl(site, recordMap)(pageId)
+    : getCanonicalPageUrl(site, recordMap!)(pageId)
 
   const socialImage = mapImageUrl(
-    getPageProperty<string>('Social Image', block, recordMap) ||
+    getPageProperty<string>('Social Image', block, recordMap!) ||
       (block as PageBlock).format?.page_cover ||
       config.defaultPageCover,
     block
   )
 
   const socialDescription =
-    getPageProperty<string>('Description', block, recordMap) ||
+    getPageProperty<string>('Description', block, recordMap!) ||
     config.description
 
   return (
@@ -392,7 +390,7 @@ export function NotionPage({
         image={socialImage}
         url={canonicalPageUrl}
         isBlogPost={isBlogPost}
-        recordMap={recordMap}
+        recordMap={recordMap!}
         block={block}
       />
 
@@ -406,11 +404,11 @@ export function NotionPage({
         )}
         darkMode={safeDarkMode}
         components={components}
-        recordMap={recordMap}
+        recordMap={recordMap!}
         rootPageId={site.rootNotionPageId}
         rootDomain={site.domain}
         fullPage={!isLiteMode}
-        previewImages={!!recordMap.preview_images}
+        previewImages={!!recordMap!.preview_images}
         showCollectionViewDropdown={false}
         showTableOfContents={showTableOfContents}
         minTableOfContentsItems={minTableOfContentsItems}
@@ -424,12 +422,7 @@ export function NotionPage({
         footer={footer}
       />
 
-      {/* AdSense in-article ad (if configured) */}
-      {isBlogPost && process.env.NEXT_PUBLIC_ADSENSE_SLOT_IN_ARTICLE && (
-        <div style={{ margin: '24px 0' }}>
-          <GoogleAd slot={process.env.NEXT_PUBLIC_ADSENSE_SLOT_IN_ARTICLE} layout='auto' responsive />
-        </div>
-      )}
+
 
       {/* Comments: show under blog posts if enabled */}
       {isBlogPost && config.isCommentsEnabled && config.utterancesRepo && (

@@ -48,17 +48,6 @@ pnpm build
 pnpm start
 ```
 
-## AdSense Integration
-
-- Global loader is added in `pages/_document.tsx` and only loads when `NEXT_PUBLIC_ADSENSE_CLIENT` is provided.
-- Reusable component: `components/GoogleAd.tsx`.
-- Blog post placement: In-article ad renders in `components/NotionPage.tsx` when `NEXT_PUBLIC_ADSENSE_SLOT_IN_ARTICLE` is set.
-
-Example usage:
-
-```tsx
-<GoogleAd slot={process.env.NEXT_PUBLIC_ADSENSE_SLOT_IN_ARTICLE!} />
-```
 
 ## Google Analytics (GA4)
 

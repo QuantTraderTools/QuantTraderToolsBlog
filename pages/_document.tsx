@@ -3,7 +3,6 @@ import Document, { Head, Html, Main, NextScript } from 'next/document'
 
 export default class MyDocument extends Document {
   override render() {
-    const adsenseClient = process.env.NEXT_PUBLIC_ADSENSE_CLIENT
     return (
       <IconContext.Provider value={{ style: { verticalAlign: 'middle' } }}>
         <Html lang='en'>
@@ -25,14 +24,7 @@ export default class MyDocument extends Document {
               crossOrigin='anonymous'
             />
 
-            {/* Google AdSense global script (only if configured) */}
-            {adsenseClient ? (
-              <script
-                async
-                src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${adsenseClient}`}
-                crossOrigin='anonymous'
-              />
-            ) : null}
+
           </Head>
 
           <body>
